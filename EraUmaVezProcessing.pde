@@ -12,7 +12,7 @@ import java.awt.*;
 import java.io.FileOutputStream;
 
 Minim minim;
-AudioPlayer groove;
+AudioPlayer myAudioPlayer;
 WaveformRenderer waveform;
 
 float[] L, R;
@@ -20,7 +20,7 @@ int[] Lx, Ly, Rx, Ry;
 
 ArrayList<PVector> envelopeMinR, envelopeMinL, envelopeMaxR, envelopeMaxL;
 
-final String fn = "groove.mp3";
+final String fn = "jingle.mp3";
 //final String fn = "h3.mp3";
 
 // for eps file
@@ -51,13 +51,13 @@ void setup() {
   waveform = new WaveformRenderer();
 
   // open file just to get its size
-  groove = minim.loadFile(fn, 2048);
+  myAudioPlayer = minim.loadFile(fn, 2048);
 
-  println(groove.bufferSize());
-  println(groove.left.toArray().length);
-  println("sample rate: " + groove.sampleRate());
-  println("total samples: " + groove.length()/1000.0*groove.sampleRate());
-  println("samples per pixel: "+ (groove.length()/1000.0*groove.sampleRate())/width);
+  println(myAudioPlayer.bufferSize());
+  println(myAudioPlayer.left.toArray().length);
+  println("sample rate: " + myAudioPlayer.sampleRate());
+  println("total samples: " + myAudioPlayer.length()/1000.0*myAudioPlayer.sampleRate());
+  println("samples per pixel: "+ (myAudioPlayer.length()/1000.0*myAudioPlayer.sampleRate())/width);
 
   try {
     finalImage = new FileOutputStream(dataPath(fn+".eps"));
@@ -77,11 +77,11 @@ void setup() {
 
   // reset groove to get buffers of the right size.
   //   this way each horizontal pixel on the screen reperesents one full buffer of audio.
-  groove.close();
-  groove = minim.loadFile(fn, int((groove.length()/1000.0*groove.sampleRate())/width));
+  myAudioPlayer.close();
+  myAudioPlayer = minim.loadFile(fn, int((myAudioPlayer.length()/1000.0*myAudioPlayer.sampleRate())/width));
 
-  groove.addListener(waveform);
-  groove.play();
+  myAudioPlayer.addListener(waveform);
+  myAudioPlayer.play();
 
   background(0);
   smooth();
@@ -99,7 +99,7 @@ void draw() {
     R[(int)p.x] = 3*(height/4) + p.z*(height/4);
 
     background(0);
-    float x = map(groove.position(), 0, groove.length(), 0, width);
+    float x = map(myAudioPlayer.position(), 0, myAudioPlayer.length(), 0, width);
     stroke(255, 0, 0);
     line(x, height/2 - 30, x, height/2 + 30);
   }
@@ -239,7 +239,7 @@ void draw() {
 
 void stop() {
   // always close Minim audio classes when you are done with them
-  groove.close();
+  myAudioPlayer.close();
   // always stop Minim before exiting.
   minim.stop();
 
