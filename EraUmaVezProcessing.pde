@@ -9,6 +9,7 @@
 
 import ddf.minim.*;
 import java.awt.*;
+import java.io.FileOutputStream;
 
 Minim minim;
 AudioPlayer groove;
