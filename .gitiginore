@@ -2,3 +2,5 @@ data/*eps
 data/*pdf
 data/*mp3
 data/*m4a
+data/jingle.mp3.eps
+!data/jingle.mp3
